@@ -2,20 +2,22 @@ name: Deploy web-app to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: Install and build web-app
+      - name: Install dependencies and build
         run: |
           cd web-app
           npm ci
@@ -25,4 +27,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./web-app/dist
+          publish_dir: web-app/dist
