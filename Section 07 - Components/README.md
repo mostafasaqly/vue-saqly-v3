@@ -1,6 +1,6 @@
 # Section 7: Components
 
-> **Vue 3 Course — 23 Sections**
+> **Vue 3 Complete Course — 23 Sections**
 
 ## Lessons
 
@@ -18,91 +18,187 @@
 
 ## Key Concepts
 
-- **defineProps** — Declares component props with types and defaults.
-- **defineEmits** — Declares events the component can emit.
-- **defineModel** — New in Vue 3.4, simplifies two-way binding for custom components.
-- **useTemplateRef** — New in Vue 3.5, the modern way to access template elements.
-- **Reactive Props Destructure** — New in Vue 3.5, allows destructuring props while maintaining reactivity.
-- **defineExpose** — Specifies which methods or properties the parent can access.
+- **Component** — A self-contained, reusable piece of UI. In Vue 3, any `.vue` file is a component. Import it and use it like an HTML tag.
+- **Props** — Data passed from parent → child. Declare with `defineProps`. Treat as read-only inside the child.
+- **Prop Validation** — Declare type, required, default, and custom validator per prop. Vue will warn in dev if the validation fails.
+- **Reactive Props Destructure (Vue 3.5)** — You can now destructure props with defaults while keeping them reactive: `const { name = 'Guest' } = defineProps(...)`.
+- **Emits** — Events passed from child → parent. Declare with `defineEmits`. Use `emit('eventName', payload)` to fire.
+- **`defineModel`** — Vue 3.4+. Creates a two-way `v-model` binding in one line. Replaces the `modelValue` prop + `update:modelValue` emit pattern.
+- **`useTemplateRef`** — Vue 3.5. The modern typed way to reference a DOM element or child component instance.
+- **`defineExpose`** — Makes specific methods/properties of a child component accessible to the parent via a template ref.
 
 ## Code Reference
 
 ```vue
-<!-- ChildComponent.vue — comprehensive example -->
+<!-- UserCard.vue — child component with full prop validation -->
 <script setup>
 import { computed, useTemplateRef } from 'vue'
 
-const { name = 'Unknown', age = 0, isAdmin = false } = defineProps({
-  name: String,
-  age: { type: Number, default: 0 },
-  isAdmin: { type: Boolean, default: false },
+// Vue 3.5: destructure with defaults — still reactive
+const {
+  name = 'Anonymous',
+  age = 0,
+  role = 'viewer',
+  avatar = '/default-avatar.png'
+} = defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+  age: {
+    type: Number,
+    default: 0,
+    validator: (val) => val >= 0 && val <= 120,
+  },
+  role: {
+    type: String,
+    default: 'viewer',
+    validator: (val) => ['admin', 'editor', 'viewer'].includes(val),
+  },
+  avatar: {
+    type: String,
+    default: '/default-avatar.png',
+  },
 })
 
-const emit = defineEmits(['update', 'delete', 'selected'])
-const modelValue = defineModel()
-const inputRef = useTemplateRef('myInput')
+// Typed emits
+const emit = defineEmits(['update', 'delete', 'promote'])
 
-const displayName = computed(() => isAdmin ? `👑 ${name}` : name)
-const focusInput = () => inputRef.value?.focus()
+const roleLabel = computed(() => {
+  return { admin: '👑 Admin', editor: '✏️ Editor', viewer: '👤 Viewer' }[role]
+})
 
-defineExpose({ focusInput })
+// useTemplateRef — Vue 3.5
+const inputRef = useTemplateRef('nameInput')
+
+const focus = () => inputRef.value?.focus()
+
+// Expose focus so parent can call it
+defineExpose({ focus })
 </script>
 
 <template>
-  <div>
-    <h3>{{ displayName }}</h3>
+  <div class="user-card" :class="`role-${role}`">
+    <img :src="avatar" :alt="name" />
+    <h3>{{ name }}</h3>
+    <span class="badge">{{ roleLabel }}</span>
     <p>Age: {{ age }}</p>
-    <input ref="myInput" v-model="modelValue" />
-    <button @click="emit('update', { name, age })">Update</button>
-    <button @click="emit('delete')">Delete</button>
+
+    <input ref="nameInput" :value="name" readonly />
+
+    <div class="actions">
+      <button @click="emit('update', { name, age })">Edit</button>
+      <button @click="emit('promote')" v-if="role !== 'admin'">Promote</button>
+      <button @click="emit('delete')" class="danger">Delete</button>
+    </div>
   </div>
+</template>
+
+<style scoped>
+.user-card { border: 1px solid #ddd; border-radius: 8px; padding: 1rem; max-width: 240px; }
+.badge { font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 999px; background: #42b883; color: white; }
+.role-admin { border-color: gold; }
+.danger { background: #e53e3e; color: white; border: none; }
+button { margin: 0.25rem; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; }
+</style>
+```
+
+```vue
+<!-- Parent.vue — using UserCard -->
+<script setup>
+import { ref, useTemplateRef } from 'vue'
+import UserCard from './UserCard.vue'
+
+const users = ref([
+  { id: 1, name: 'Sara Ahmed', age: 28, role: 'admin' },
+  { id: 2, name: 'Ali Hassan', age: 22, role: 'editor' },
+])
+
+// Access exposed method on child
+const cardRef = useTemplateRef('firstCard')
+const focusFirstCard = () => cardRef.value?.focus()
+
+const handleUpdate = (data) => console.log('Update:', data)
+const handleDelete = (id) => {
+  users.value = users.value.filter(u => u.id !== id)
+}
+const handlePromote = (id) => {
+  const user = users.value.find(u => u.id === id)
+  if (user) user.role = 'admin'
+}
+</script>
+
+<template>
+  <button @click="focusFirstCard">Focus first card</button>
+
+  <UserCard
+    v-for="user in users"
+    :key="user.id"
+    :ref="user.id === 1 ? 'firstCard' : undefined"
+    :name="user.name"
+    :age="user.age"
+    :role="user.role"
+    @update="handleUpdate"
+    @delete="handleDelete(user.id)"
+    @promote="handlePromote(user.id)"
+  />
 </template>
 ```
 
 ```vue
-<!-- Parent usage -->
+<!-- defineModel — custom input component (Vue 3.4+) -->
 <script setup>
-import { ref, useTemplateRef } from 'vue'
-import ChildComponent from './ChildComponent.vue'
-
-const value = ref('')
-const childRef = useTemplateRef('child')
-const focusChild = () => childRef.value?.focusInput()
+const model = defineModel({ default: '' })
 </script>
 
 <template>
-  <ChildComponent
-    ref="child"
-    name="Mustafa"
-    :age="28"
-    :is-admin="true"
-    v-model="value"
-    @update="(data) => console.log(data)"
-    @delete="() => console.log('deleted')"
+  <input
+    class="custom-input"
+    :value="model"
+    @input="model = $event.target.value"
   />
-  <button @click="focusChild">Focus Input</button>
 </template>
+
+<!-- Parent usage -->
+<!-- <CustomInput v-model="username" /> -->
+```
+
+## Component Communication Patterns
+
+```
+Parent
+  │  props (data flows down)
+  ↓
+Child
+  │  emit (events flow up)
+  ↑
+Parent
+
+For sibling communication → use a Pinia store (Section 14)
+For deeply nested → use provide/inject
 ```
 
 ## Review Q&A
 
-**Q: What is the difference between `defineModel` and manual `:value` + `@input`?**
-A: `defineModel` condenses both patterns into one line — it creates an internal ref and auto-syncs with the parent via v-model.
+**Q: What is the difference between `defineModel` and manual `:modelValue` + `@update:modelValue`?**
+A: `defineModel()` compresses the entire pattern into one line. Under the hood it still creates a prop called `modelValue` and emits `update:modelValue`, but you don't write that boilerplate yourself.
 
-**Q: Why is `useTemplateRef` better than the old `ref="name"` string approach?**
-A: It provides proper TypeScript typing and works more cleanly with the Composition API.
+**Q: Why use `useTemplateRef` instead of the old `ref="name"` string?**
+A: `useTemplateRef('name')` returns a properly typed ref — TypeScript knows the exact element type. It's also composable-friendly. The string-based approach works but isn't typed.
+
+**Q: Can a child component modify its props directly?**
+A: No — props are read-only in the child. If you need to mutate the value, either emit an event to the parent, use `defineModel`, or copy the prop to a local `ref`.
+
+**Q: When do you need `defineExpose`?**
+A: With `<script setup>`, a component's internal state is private by default. If a parent needs to call a method on the child (like `focus()` or `reset()`), you must explicitly expose it with `defineExpose({ focus, reset })`.
 
 ## Examples Folder
 
-This section's examples are in `Section 07 - Components/examples/`:
-
-- `examples/Counter.vue`
-- `examples/SearchInput.vue`
-- `examples/UserCard.vue`
-
-Open `Section 07 - Components/examples/` to view the runnable examples.
+- `examples/UserCard.vue` — full-featured card with props, emits, expose
+- `examples/Counter.vue` — counter with prop-driven initial value
+- `examples/SearchInput.vue` — custom input using defineModel
 
 ---
 
-**Prev:** Section 06 — Reactivity Fundamentals  
-**Next:** Section 08 — Slots & Reusable Components
+**Prev:** [Section 06 — Reactivity Fundamentals](../Section%2006%20-%20Reactivity%20Fundamentals/README.md)
+**Next:** [Section 08 — Slots & Reusable Components](../Section%2008%20-%20Slots%20and%20Reusable%20Components/README.md)

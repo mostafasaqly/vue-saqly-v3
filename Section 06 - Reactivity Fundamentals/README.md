@@ -1,6 +1,6 @@
 # Section 6: Reactivity Fundamentals
 
-> **Vue 3 Course — 23 Sections**
+> **Vue 3 Complete Course — 23 Sections**
 
 ## Lessons
 
@@ -11,94 +11,166 @@
 | 3 | reactive — Reactive Objects |
 | 4 | ref vs reactive — When to Use Which |
 | 5 | computed — Derived State |
-| 6 | watch — Watching for Changes |
-| 7 | watchEffect — Auto-tracked Side Effects |
-| 8 | onWatcherCleanup — Vue 3.5 Watcher Cleanup |
+| 6 | Writable computed |
+| 7 | watch — Watching for Changes |
+| 8 | watchEffect — Auto-tracked Side Effects |
+| 9 | onWatcherCleanup — Vue 3.5 Cleanup |
+| 10 | toRef and toRefs |
 
 ## Key Concepts
 
-- **`ref()`** — Makes a primitive or object value reactive; accessed via `.value` in JavaScript.
-- **`reactive()`** — Makes an object deeply reactive without `.value`.
-- **`computed()`** — Derived state that automatically updates and is cached.
-- **`watch()`** — Watches a specific source and runs a callback when it changes.
-- **`watchEffect()`** — Auto-tracks reactive dependencies used inside the effect.
-- **`onWatcherCleanup()`** — Vue 3.5 feature that registers a cleanup callback before the next watcher run.
+- **Reactivity** — Vue tracks which reactive values a template or computed reads. When those values change, Vue automatically re-renders only what's affected.
+- **`ref()`** — Wraps any value (primitive or object) in a reactive container. Access the inner value via `.value` in JavaScript. Inside templates, Vue auto-unwraps refs.
+- **`reactive()`** — Makes a plain object deeply reactive. No `.value` needed — you access properties directly. Limitation: only works with objects/arrays, not primitives.
+- **`computed()`** — A derived value that is automatically cached. Vue only recalculates it when its reactive dependencies change. Calling a computed multiple times returns the cached result.
+- **Writable computed** — A computed with both `get` and `set` — useful for two-way binding to a derived value.
+- **`watch(source, callback, options)`** — Explicitly watches a reactive source and fires when it changes. Provides both `newValue` and `oldValue`.
+- **`watchEffect(fn)`** — Runs the function immediately, auto-tracks every reactive value read inside it, and re-runs whenever any of them change.
+- **`toRef` / `toRefs`** — Creates reactive refs from a reactive object's properties — useful for destructuring without losing reactivity.
 
 ## ref vs reactive
 
 | | `ref` | `reactive` |
-|---|---|---|
-| Type | Any primitive value | Objects / Arrays only |
-| Access in JS | `.value` | Direct property access |
-| Template usage | Automatically unwraps | Direct usage |
-| Best for | Primitives and simple values | Complex objects |
-| Destructuring | Breaks reactivity | Breaks reactivity unless using `toRefs()` |
+|---|-------|-----------|
+| Accepts | Any type | Objects / Arrays only |
+| Access in JS | `.value` required | Direct property access |
+| Template | Auto-unwrapped (no `.value`) | Direct usage |
+| Destructuring | OK — ref stays reactive | Loses reactivity unless `toRefs()` |
+| Re-assignment | `ref.value = newObject` works | `reactive = {}` breaks reactivity |
+| **Recommended** | ✅ Default choice | For large nested objects |
 
 ## Code Reference
 
 ```js
-import { ref, reactive, computed, watch, watchEffect, onWatcherCleanup } from 'vue'
+import { ref, reactive, computed, watch, watchEffect, toRefs, onWatcherCleanup } from 'vue'
 
+// ── ref ──
 const count = ref(0)
+const name = ref('Vue')
+const list = ref([1, 2, 3])
+
+count.value++             // mutate in script
+list.value.push(4)        // objects inside ref are also reactive
+
+// ── reactive ──
 const user = reactive({
-  firstName: 'Mina',
-  lastName: 'Ali',
-  age: 28,
+  firstName: 'Sara',
+  lastName: 'Ahmed',
+  age: 25,
 })
 
-const doubleCount = computed(() => count.value * 2)
+user.age++                // direct property access — no .value
 
-const fullName = computed({
+// ── toRefs — destructure without losing reactivity ──
+const { firstName, lastName } = toRefs(user)
+// firstName and lastName are now refs linked to user
+
+// ── computed (read-only) ──
+const doubled = computed(() => count.value * 2)
+const fullName = computed(() => `${user.firstName} ${user.lastName}`)
+
+// ── computed (writable) ──
+const fullNameWritable = computed({
   get: () => `${user.firstName} ${user.lastName}`,
   set: (value) => {
-    const [first, last] = value.split(' ')
+    const [first, ...rest] = value.split(' ')
     user.firstName = first
-    user.lastName = last
+    user.lastName = rest.join(' ')
   },
 })
 
-watch(count, (newValue, oldValue) => {
-  console.log(`Count changed from ${oldValue} to ${newValue}`)
+// fullNameWritable.value = 'Ali Hassan'  → updates user.firstName and user.lastName
+
+// ── watch — explicit source ──
+watch(count, (newVal, oldVal) => {
+  console.log(`count: ${oldVal} → ${newVal}`)
 })
 
-watch([
-  count,
-  () => user.age,
-], ([newCount, newAge]) => {
+// Watch multiple sources
+watch([count, () => user.age], ([newCount, newAge], [oldCount, oldAge]) => {
   console.log('count:', newCount, 'age:', newAge)
 })
 
+// Watch options
+watch(
+  () => user.firstName,
+  (newVal) => console.log('Name changed:', newVal),
+  { immediate: true }   // run immediately on setup
+)
+
+// Deep watch — detects nested object changes
 watch(user, (newUser) => {
   console.log('User changed:', newUser)
-}, { immediate: true, deep: true })
+}, { deep: true })
 
-watchEffect((onCleanup) => {
-  console.log(`Count: ${count.value}, User: ${user.firstName}`)
+// ── watchEffect — auto-tracks dependencies ──
+watchEffect(() => {
+  // Vue tracks count.value and user.firstName automatically
+  console.log(`${user.firstName} clicked ${count.value} times`)
 
+  // Vue 3.5: register cleanup before next run
   onWatcherCleanup(() => {
-    console.log('Cleanup before next run')
+    console.log('Cleanup before next watchEffect run')
   })
 })
 ```
 
+```vue
+<!-- ReactivityDemo.vue — comparing ref and reactive in a template -->
+<script setup>
+import { ref, reactive, computed } from 'vue'
+
+const score = ref(0)
+const player = reactive({ name: 'Player 1', lives: 3 })
+
+const status = computed(() => {
+  if (player.lives === 0) return 'Game Over'
+  if (score.value >= 100) return 'Winner!'
+  return 'Playing...'
+})
+</script>
+
+<template>
+  <div>
+    <h2>{{ player.name }}</h2>
+    <p>Score: {{ score }} | Lives: {{ player.lives }}</p>
+    <p>Status: {{ status }}</p>
+    <button @click="score++">+1 Score</button>
+    <button @click="player.lives--" :disabled="player.lives === 0">Lose a Life</button>
+    <button @click="score = 0; player.lives = 3">Restart</button>
+  </div>
+</template>
+```
+
+## watch vs watchEffect
+
+| | `watch` | `watchEffect` |
+|--|---------|--------------|
+| Source | Explicit — you declare what to watch | Auto-tracked — reads inside the function |
+| Old value | ✅ Available | ✗ Not available |
+| Runs immediately | Only with `{ immediate: true }` | ✅ Always runs on setup |
+| Use case | React to specific value changes | Side effects that depend on multiple values |
+
 ## Review Q&A
 
 **Q: What is the difference between `watch` and `watchEffect`?**
-A: `watch` requires an explicit source and provides old and new values. `watchEffect` automatically tracks dependencies and does not provide the old value.
+A: `watch` watches an explicit source and gives you both the old and new values. `watchEffect` runs immediately, auto-discovers its dependencies, but doesn't provide the old value. Use `watch` when you care about what changed; use `watchEffect` for side effects that depend on many reactive values.
 
 **Q: Why is `computed` better than a method for derived values?**
-A: `computed` caches the result and only recalculates when dependencies change. A method runs on every render.
+A: `computed` caches the result and only recalculates when dependencies change. If you call a computed 10 times with no data change, it calculates once. A method re-runs every time it's called.
+
+**Q: When should I use `ref` over `reactive`?**
+A: Default to `ref` for everything — it works with primitives and objects alike and behaves consistently. Use `reactive` when you have a large nested object and want cleaner property access without `.value` everywhere.
+
+**Q: What happens if I destructure a `reactive` object?**
+A: The destructured variables become plain, non-reactive values. To safely destructure, use `toRefs(obj)` — it wraps each property in a ref that stays linked to the original object.
 
 ## Examples Folder
 
-This section's examples are in `Section 06 - Reactivity Fundamentals/examples/`:
-
-- `examples/useCounter.js`
-- `examples/ReactivityDemo.vue`
-
-Open `Section 06 - Reactivity Fundamentals/examples/` to view the runnable code.
+- `examples/ReactivityDemo.vue` — reactive counter and player state demo
+- `examples/useCounter.js` — composable wrapping count logic with watch
 
 ---
 
-**Prev:** Section 05 — Directives  
-**Next:** Section 07 — Components
+**Prev:** [Section 05 — Directives](../Section%2005%20-%20Directives/README.md)
+**Next:** [Section 07 — Components](../Section%2007%20-%20Components/README.md)
