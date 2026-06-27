@@ -1,34 +1,33 @@
-# القسم 12: التوجيه مع Vue Router
 # Section 12: Routing with Vue Router
 
-> **Vue 3 Course — 23 Sections** | القسم 12 من 23
+> **Vue 3 Course — 23 Sections**
 
-## الدروس | Lessons
+## Lessons
 
-| # | بالعربية | In English |
-|---|---------|------------|
-| 1 | تثبيت Vue Router | Installing Vue Router |
-| 2 | تعريف الـ Routes | Defining Routes |
-| 3 | RouterView و RouterLink | RouterView & RouterLink |
-| 4 | useRoute و useRouter | useRoute & useRouter Composables |
-| 5 | Active Link Styling | Active Link Styling |
-| 6 | Dynamic Routes (المعاملات) | Dynamic Routes with Params |
-| 7 | Nested Routes | Nested Routes |
-| 8 | Not Found (404) | Not Found — Catch-All Route |
-| 9 | Navigation Guards | Navigation Guards (beforeEach) |
-| 10 | Lazy Loading Routes | Lazy Loading Routes |
+| # | Lesson |
+|---|--------|
+| 1 | Installing Vue Router |
+| 2 | Defining Routes |
+| 3 | RouterView & RouterLink |
+| 4 | useRoute & useRouter Composables |
+| 5 | Active Link Styling |
+| 6 | Dynamic Routes with Params |
+| 7 | Nested Routes |
+| 8 | Not Found — Catch-All Route |
+| 9 | Navigation Guards (beforeEach) |
+| 10 | Lazy Loading Routes |
 
-## المفاهيم الرئيسية | Key Concepts
+## Key Concepts
 
-- **`createRouter`** — إنشاء instance للـ router / Creates the router instance.
-- **`createWebHistory`** — يستخدم HTML5 History API (لا # في الـ URL) / Uses HTML5 History API (clean URLs).
-- **`route.params`** — المعاملات الديناميكية في الـ URL / Dynamic parameters from the URL.
-- **`route.query`** — معاملات الاستعلام في الـ URL / Query string parameters.
-- **`meta.requiresAuth`** — بيانات إضافية للـ route تُستخدم في الـ Guards / Extra route data used in guards.
-- **`beforeEach`** — حارس التنقل العالمي / Global navigation guard.
-- **Lazy Loading** — تحميل المكون فقط عند الحاجة / Load component only when needed.
+- **`createRouter`** — Creates the router instance.
+- **`createWebHistory`** — Uses HTML5 History API for clean URLs.
+- **`route.params`** — Dynamic parameters from the URL.
+- **`route.query`** — Query-string parameters from the URL.
+- **`meta.requiresAuth`** — Extra route metadata used in guards.
+- **`beforeEach`** — Global navigation guard.
+- **Lazy Loading** — Load components only when the route is visited.
 
-## أمثلة مرجعية | Code Reference
+## Code Reference
 
 ```js
 // router/index.js
@@ -43,7 +42,7 @@ const router = createRouter({
       component: () => import('../views/Home.vue'), // Lazy loading
     },
     {
-      path: '/users/:id',  // Dynamic route
+      path: '/users/:id',
       name: 'UserDetail',
       component: () => import('../views/UserDetail.vue'),
       meta: { requiresAuth: true },
@@ -51,20 +50,19 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: () => import('../views/Dashboard.vue'),
-      children: [  // Nested routes
+      children: [
         { path: '', component: () => import('../views/DashboardOverview.vue') },
         { path: 'settings', component: () => import('../views/DashboardSettings.vue') },
       ],
     },
     {
-      path: '/:pathMatch(.*)*',  // 404 Catch-all
+      path: '/:pathMatch(.*)*',
       name: 'NotFound',
       component: () => import('../views/NotFound.vue'),
     },
   ],
 })
 
-// Navigation Guard
 router.beforeEach((to, from) => {
   if (to.meta.requiresAuth && !isLoggedIn()) {
     return { name: 'Login' }
@@ -85,33 +83,30 @@ const router = useRouter()
 const userId = route.params.id
 const searchQuery = route.query.q
 
-// Programmatic navigation
 const goHome = () => router.push({ name: 'Home' })
 const goToUser = (id) => router.push({ name: 'UserDetail', params: { id } })
 const goBack = () => router.back()
 </script>
 ```
 
-## أسئلة المراجعة | Review Q&A
-
-**س: ما الفرق بين `router.push` و `router.replace`؟**
-ج: `push` يُضيف entry جديد في تاريخ التصفح (يمكن الرجوع). `replace` يستبدل الـ entry الحالي (لا يمكن الرجوع).
+## Review Q&A
 
 **Q: What is the difference between `router.push` and `router.replace`?**
 A: `push` adds a new entry to browser history (user can go back). `replace` replaces the current entry (user cannot go back).
 
-**س: كيف تمنع المستخدم غير المسجّل من الوصول لصفحة؟**
-ج: أضف `meta: { requiresAuth: true }` للـ route، ثم تحقق من ذلك في `router.beforeEach`.
-
 **Q: How do you prevent an unauthenticated user from accessing a page?**
 A: Add `meta: { requiresAuth: true }` to the route, then check it in `router.beforeEach`.
 
-## مجلد الأمثلة | Examples Folder
+## Examples Folder
 
-راجع `examples/` للأكواد التشغيلية لكل درس.
-See `examples/` for runnable code for each lesson.
+This section's examples are in `Section 12 - Routing with Vue Router/examples/`:
+
+- `examples/router/`
+- `examples/views/`
+
+Open `Section 12 - Routing with Vue Router/examples/` to view the runnable routing setup.
 
 ---
 
-**السابق | Prev:** Section 11 — Lifecycle Hooks  
-**التالي | Next:** Section 13 — HTTP & APIs
+**Prev:** Section 11 — Lifecycle Hooks  
+**Next:** Section 13 — HTTP & APIs

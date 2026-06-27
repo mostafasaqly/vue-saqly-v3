@@ -1,29 +1,28 @@
-# القسم 16: واجهة المستخدم والتنسيق
 # Section 16: UI & Styling
 
-> **Vue 3 Course — 23 Sections** | القسم 16 من 23
+> **Vue 3 Course — 23 Sections**
 
-## الدروس | Lessons
+## Lessons
 
-| # | بالعربية | In English |
-|---|---------|------------|
-| 1 | Scoped CSS في Vue | Scoped CSS in Vue |
-| 2 | CSS Modules | CSS Modules |
-| 3 | v-bind() في Style | v-bind() in CSS — Dynamic CSS Variables |
-| 4 | تثبيت Tailwind CSS | Installing Tailwind CSS |
-| 5 | إعداد Tailwind مع Vue | Configuring Tailwind with Vue |
-| 6 | تثبيت PrimeVue | Installing PrimeVue Component Library |
-| 7 | بناء UI Components | Building Reusable UI Components |
+| # | Lesson |
+|---|--------|
+| 1 | Scoped CSS in Vue |
+| 2 | CSS Modules |
+| 3 | v-bind() in CSS — Dynamic CSS Variables |
+| 4 | Installing Tailwind CSS |
+| 5 | Configuring Tailwind with Vue |
+| 6 | Installing PrimeVue Component Library |
+| 7 | Building Reusable UI Components |
 
-## المفاهيم الرئيسية | Key Concepts
+## Key Concepts
 
-- **`<style scoped>`** — CSS مُقيَّد بالمكون فقط، لا يؤثر على المكونات الأخرى / CSS scoped to the current component only.
-- **`<style module>`** — CSS Modules تُنشئ أسماء classes فريدة تلقائياً / CSS Modules generate unique class names automatically.
-- **`v-bind()` في CSS** — يربط متغيرات CSS بقيم JavaScript رياكتيفة / Binds CSS variables to reactive JavaScript values.
-- **Tailwind CSS** — إطار CSS utility-first للبناء السريع للـ UI / Utility-first CSS framework for rapid UI building.
-- **PrimeVue** — مكتبة مكونات Vue جاهزة وغنية بالميزات / Rich Vue component library with many ready-to-use components.
+- **`<style scoped>`** — CSS scoped to the current component only.
+- **`<style module>`** — CSS Modules generate unique class names automatically.
+- **`v-bind()` in CSS** — Binds CSS variables to reactive JavaScript values.
+- **Tailwind CSS** — Utility-first CSS framework for rapid UI building.
+- **PrimeVue** — Rich Vue component library with many ready-to-use components.
 
-## أمثلة مرجعية | Code Reference
+## Code Reference
 
 ```vue
 <!-- v-bind() in CSS — Dynamic styles with reactive values -->
@@ -34,7 +33,7 @@ const theme = ref({ primary: '#42b883', bg: '#ffffff', radius: '8px' })
 
 <template>
   <div class="themed-card">
-    <h2>بطاقة ديناميكية</h2>
+    <h2>Themed Card</h2>
   </div>
 </template>
 
@@ -63,26 +62,24 @@ const theme = ref({ primary: '#42b883', bg: '#ffffff', radius: '8px' })
 /* Usage: <div :class="$style.card"> */
 ```
 
-## أسئلة المراجعة | Review Q&A
-
-**س: ما الفرق بين `<style scoped>` و `<style module>`؟**
-ج: `scoped` يضيف attribute فريداً للعناصر ويقيّد CSS بها. `module` يُعيد object من CSS classes بأسماء فريدة تُستخدم بـ `:class="$style.name"`.
+## Review Q&A
 
 **Q: What is the difference between `<style scoped>` and `<style module>`?**
 A: `scoped` adds a unique attribute to elements and scopes CSS to them. `module` returns an object of CSS classes with unique names used via `:class="$style.name"`.
 
-**س: كيف أستخدم `v-bind()` في CSS؟**
-ج: ضع متغير JavaScript داخل `v-bind()` في CSS property — يتحدث تلقائياً عند تغير المتغير.
-
 **Q: How do I use `v-bind()` in CSS?**
 A: Put a JavaScript variable inside `v-bind()` in a CSS property — it auto-updates when the variable changes.
 
-## مجلد الأمثلة | Examples Folder
+## Examples Folder
 
-راجع `examples/` للأكواد التشغيلية لكل درس.
-See `examples/` for runnable code for each lesson.
+This section's examples are in `Section 16 - UI & Styling/examples/`:
+
+- `examples/tailwind.config.js`
+- `examples/ThemedCard.vue`
+
+Open `Section 16 - UI & Styling/examples/` to view the runnable examples.
 
 ---
 
-**السابق | Prev:** Section 15 — TypeScript with Vue
-**التالي | Next:** Section 17 — Performance & Best Practices
+**Prev:** Section 15 — TypeScript with Vue
+**Next:** Section 17 — Performance & Best Practices

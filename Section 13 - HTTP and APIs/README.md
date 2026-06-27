@@ -1,28 +1,27 @@
-# القسم 13: HTTP والـ APIs
 # Section 13: HTTP & APIs
 
-> **Vue 3 Course — 23 Sections** | القسم 13 من 23
+> **Vue 3 Course — 23 Sections**
 
-## الدروس | Lessons
+## Lessons
 
-| # | بالعربية | In English |
-|---|---------|------------|
-| 1 | Fetch API الأصلي | Native Fetch API |
-| 2 | تثبيت Axios | Installing Axios |
-| 3 | طلبات GET | GET Requests |
-| 4 | طلبات POST و PUT و DELETE | POST, PUT, DELETE Requests |
-| 5 | حالات التحميل والأخطاء | Loading & Error States |
-| 6 | API Service Layer | API Service Layer Pattern |
-| 7 | Composable للـ API | Generic API Composable (useApi) |
+| # | Lesson |
+|---|--------|
+| 1 | Native Fetch API |
+| 2 | Installing Axios |
+| 3 | GET Requests |
+| 4 | POST, PUT, DELETE Requests |
+| 5 | Loading & Error States |
+| 6 | API Service Layer Pattern |
+| 7 | Generic API Composable (useApi) |
 
-## المفاهيم الرئيسية | Key Concepts
+## Key Concepts
 
-- **`axios.create()`** — إنشاء Axios instance بإعدادات مشتركة (baseURL, headers) / Creates an Axios instance with shared configuration.
-- **Interceptors** — دوال تعمل على كل request أو response قبل معالجتها / Functions that run on every request/response before processing.
-- **API Service Layer** — تنظيم كل API calls في ملفات منفصلة بدلاً من استدعائها مباشرة في المكونات / Organize all API calls in separate files.
-- **`useApi` Composable** — composable عام يتعامل مع loading/error/data لأي API call / Generic composable handling loading/error/data for any API call.
+- **`axios.create()`** — Creates an Axios instance with shared configuration.
+- **Interceptors** — Functions that run on every request or response before processing.
+- **API Service Layer** — Organize all API calls in separate files instead of calling them directly inside components.
+- **`useApi` Composable** — Generic composable handling loading/error/data for any API call.
 
-## أمثلة مرجعية | Code Reference
+## Code Reference
 
 ```js
 // api/axios.js — Axios instance with interceptors
@@ -34,14 +33,12 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-// Request interceptor — add auth token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token')
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
 
-// Response interceptor — handle errors globally
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
@@ -68,26 +65,23 @@ export const postsAPI = {
 }
 ```
 
-## أسئلة المراجعة | Review Q&A
-
-**س: ما الفرق بين Fetch API و Axios؟**
-ج: Fetch هو API أصلي في المتصفح. Axios يوفر interceptors، تحويل JSON تلقائي، إلغاء الطلبات، ودعم أفضل للأخطاء.
+## Review Q&A
 
 **Q: What is the difference between Fetch API and Axios?**
 A: Fetch is native to the browser. Axios provides interceptors, automatic JSON transformation, request cancellation, and better error handling.
 
-**س: لماذا نستخدم API Service Layer؟**
-ج: يُمركز كل API calls في مكان واحد، يسهّل التغيير والاختبار، ويمنع تكرار الكود في المكونات.
-
 **Q: Why use an API Service Layer?**
 A: It centralizes all API calls in one place, makes changes and testing easier, and prevents code duplication in components.
 
-## مجلد الأمثلة | Examples Folder
+## Examples Folder
 
-راجع `examples/` للأكواد التشغيلية لكل درس.
-See `examples/` for runnable code for each lesson.
+This section's examples are in `Section 13 - HTTP and APIs/examples/`:
+
+- `examples/useApi.js`
+
+Open `Section 13 - HTTP and APIs/examples/` to view the runnable example.
 
 ---
 
-**السابق | Prev:** Section 12 — Routing with Vue Router
-**التالي | Next:** Section 14 — State Management with Pinia
+**Prev:** Section 12 — Routing with Vue Router
+**Next:** Section 14 — State Management with Pinia
