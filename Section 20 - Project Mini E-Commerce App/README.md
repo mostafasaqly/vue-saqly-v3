@@ -1,23 +1,20 @@
-﻿# القسم 20: المشروع 3: E-Commerce App
-# Section 20: Project 3: Mini E-Commerce App
+﻿# Section 20: Project 3 — Mini E-Commerce App
 
-> **Vue 3 Course** — Section 20 of 23
+> Vue 3 Course — Section 20 of 23
 
-## الموضوعات | Topics
+## Topics
 
-Cart Store + Checkout + Persistence + Full Pinia
+Cart Store, Checkout, Persistence, Pinia
 
-## الأمثلة | Examples
+## Examples
 
-راجع مجلد examples/ لأكواد تشغيلية لكل درس.
-See the examples/ folder for runnable code for each lesson.
+See the `examples/` folder for runnable code for each lesson: [examples/](examples/)
 
-## الدرس التفاعلي | Interactive Lesson
+## Interactive Lesson
 
-افتح تطبيق الويب لقراءة المحتوى الكامل بالعربية والإنجليزية.
-Open the web-app for the full bilingual content (AR/EN).
+Open the `web-app` for the full course content.
 
 ---
 
-**السابق | Previous:** Section 19
-**التالي | Next:** Section 21
+**Previous:** Section 19
+**Next:** Section 21

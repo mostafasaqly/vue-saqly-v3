@@ -1,23 +1,20 @@
-﻿# القسم 18: المشروع 1: Task Manager
-# Section 18: Project 1: Task Manager App
+﻿# Section 18: Project 1 — Task Manager App
 
-> **Vue 3 Course** — Section 18 of 23
+> Vue 3 Course — Section 18 of 23
 
-## الموضوعات | Topics
+## Topics
 
-Pinia + Composables + Validation + localStorage
+Pinia, Composables, Validation, localStorage
 
-## الأمثلة | Examples
+## Examples
 
-راجع مجلد examples/ لأكواد تشغيلية لكل درس.
-See the examples/ folder for runnable code for each lesson.
+See the `examples/` folder for runnable code for each lesson: [examples/](examples/)
 
-## الدرس التفاعلي | Interactive Lesson
+## Interactive Lesson
 
-افتح تطبيق الويب لقراءة المحتوى الكامل بالعربية والإنجليزية.
-Open the web-app for the full bilingual content (AR/EN).
+Open the `web-app` for the full course content.
 
 ---
 
-**السابق | Previous:** Section 17
-**التالي | Next:** Section 19
+**Previous:** Section 17
+**Next:** Section 19

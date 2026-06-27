@@ -1,23 +1,20 @@
-﻿# القسم 21: أساسيات الاختبار
-# Section 21: Testing Basics
+﻿# Section 21: Testing Basics
 
-> **Vue 3 Course** — Section 21 of 23
+> Vue 3 Course — Section 21 of 23
 
-## الموضوعات | Topics
+## Topics
 
-Vitest، Vue Test Utils، Pinia testing، Mocking APIs
+Vitest, Vue Test Utils, Pinia testing, Mocking APIs
 
-## الأمثلة | Examples
+## Examples
 
-راجع مجلد examples/ لأكواد تشغيلية لكل درس.
-See the examples/ folder for runnable code for each lesson.
+See the `examples/` folder for runnable code for each lesson: [examples/](examples/)
 
-## الدرس التفاعلي | Interactive Lesson
+## Interactive Lesson
 
-افتح تطبيق الويب لقراءة المحتوى الكامل بالعربية والإنجليزية.
-Open the web-app for the full bilingual content (AR/EN).
+Open the `web-app` for the full course content.
 
 ---
 
-**السابق | Previous:** Section 20
-**التالي | Next:** Section 22
+**Previous:** Section 20
+**Next:** Section 22
