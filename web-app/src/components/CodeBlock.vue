@@ -58,7 +58,7 @@ async function copy() {
       @click="copy"
       :aria-label="copied ? 'Copied!' : 'Copy code'"
     >
-      {{ copied ? "✓" : "نسخ" }}
+      {{ copied ? "✓" : "Copy" }}
     </button>
   </div>
 </template>
