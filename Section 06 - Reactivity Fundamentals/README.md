@@ -1,115 +1,104 @@
-# القسم 6: أساسيات الـ Reactivity
 # Section 6: Reactivity Fundamentals
 
-> **Vue 3 Course — 23 Sections** | القسم 6 من 23
+> **Vue 3 Course — 23 Sections**
 
-## الدروس | Lessons
+## Lessons
 
-| # | بالعربية | In English |
-|---|---------|------------|
-| 1 | ما هي الـ Reactivity؟ | What is Reactivity? |
-| 2 | ref | ref — Reactive References |
-| 3 | reactive | reactive — Reactive Objects |
-| 4 | ref مقابل reactive | ref vs reactive — When to Use Which |
-| 5 | computed | computed — Derived State |
-| 6 | watch | watch — Watching for Changes |
-| 7 | watchEffect | watchEffect — Auto-tracked Side Effects |
-| 8 | onWatcherCleanup | onWatcherCleanup (Vue 3.5) |
+| # | Lesson |
+|---|--------|
+| 1 | What is Reactivity? |
+| 2 | ref — Reactive References |
+| 3 | reactive — Reactive Objects |
+| 4 | ref vs reactive — When to Use Which |
+| 5 | computed — Derived State |
+| 6 | watch — Watching for Changes |
+| 7 | watchEffect — Auto-tracked Side Effects |
+| 8 | onWatcherCleanup — Vue 3.5 Watcher Cleanup |
 
-## المفاهيم الرئيسية | Key Concepts
+## Key Concepts
 
-- **`ref()`** — يجعل قيمة بسيطة (string, number, boolean) أو object رياكتيف. يُستخدم بـ `.value` في JavaScript / Makes any value reactive; accessed via `.value` in JS.
-- **`reactive()`** — يجعل object كامل رياكتيف. لا يحتاج `.value` / Makes a plain object deeply reactive without `.value`.
-- **`computed()`** — قيمة مشتقة يتم حسابها تلقائياً ويتم تخزينها مؤقتاً (caching) / Derived value that auto-updates and is cached.
-- **`watch()`** — يراقب مصدراً محدداً وينفذ callback عند التغيير / Watches a specific source and runs callback on change.
-- **`watchEffect()`** — يتتبع تلقائياً كل الـ reactive dependencies التي تُستخدم داخله / Auto-tracks all reactive dependencies used inside it.
-- **`onWatcherCleanup()`** — جديد في Vue 3.5، يُسجّل دالة تنظيف تعمل قبل التشغيل التالي / New in Vue 3.5, registers a cleanup function that runs before the next watcher execution.
+- **`ref()`** — Makes a primitive or object value reactive; accessed via `.value` in JavaScript.
+- **`reactive()`** — Makes an object deeply reactive without `.value`.
+- **`computed()`** — Derived state that automatically updates and is cached.
+- **`watch()`** — Watches a specific source and runs a callback when it changes.
+- **`watchEffect()`** — Auto-tracks reactive dependencies used inside the effect.
+- **`onWatcherCleanup()`** — Vue 3.5 feature that registers a cleanup callback before the next watcher run.
 
-## ref مقابل reactive | ref vs reactive
+## ref vs reactive
 
 | | `ref` | `reactive` |
 |---|---|---|
-| **النوع** | أي قيمة | Objects / Arrays only |
-| **الوصول** | `.value` في JS | مباشر |
-| **في Template** | تلقائياً (بدون .value) | مباشر |
-| **الاستخدام** | Primitives + كل شيء | Complex objects |
-| **Destructuring** | يكسر الـ Reactivity | يكسر الـ Reactivity (استخدم toRefs) |
+| Type | Any primitive value | Objects / Arrays only |
+| Access in JS | `.value` | Direct property access |
+| Template usage | Automatically unwraps | Direct usage |
+| Best for | Primitives and simple values | Complex objects |
+| Destructuring | Breaks reactivity | Breaks reactivity unless using `toRefs()` |
 
-## أمثلة مرجعية | Code Reference
+## Code Reference
 
 ```js
 import { ref, reactive, computed, watch, watchEffect, onWatcherCleanup } from 'vue'
 
-// ref
 const count = ref(0)
-count.value++ // في JS
-// {{ count }} في Template — بدون .value
+const user = reactive({
+  firstName: 'Mina',
+  lastName: 'Ali',
+  age: 28,
+})
 
-// reactive
-const user = reactive({ name: 'مصطفى', age: 28 })
-user.age++ // لا نحتاج .value
-
-// computed
 const doubleCount = computed(() => count.value * 2)
-// لا تنسَ: computed read-only بالافتراضي
 
-// computed writable
 const fullName = computed({
   get: () => `${user.firstName} ${user.lastName}`,
-  set: (val) => {
-    const [first, last] = val.split(' ')
+  set: (value) => {
+    const [first, last] = value.split(' ')
     user.firstName = first
     user.lastName = last
-  }
+  },
 })
 
-// watch
-watch(count, (newVal, oldVal) => {
-  console.log(`تغيّر من ${oldVal} إلى ${newVal}`)
+watch(count, (newValue, oldValue) => {
+  console.log(`Count changed from ${oldValue} to ${newValue}`)
 })
 
-// watch multiple sources
-watch([count, () => user.age], ([newCount, newAge]) => {
-  console.log(newCount, newAge)
+watch([
+  count,
+  () => user.age,
+], ([newCount, newAge]) => {
+  console.log('count:', newCount, 'age:', newAge)
 })
 
-// watch with immediate + deep
 watch(user, (newUser) => {
   console.log('User changed:', newUser)
 }, { immediate: true, deep: true })
 
-// watchEffect
-watchEffect(() => {
-  // يتتبع تلقائياً count و user.name
-  console.log(`Count: ${count.value}, User: ${user.name}`)
+watchEffect((onCleanup) => {
+  console.log(`Count: ${count.value}, User: ${user.firstName}`)
 
-  // Vue 3.5: onWatcherCleanup
   onWatcherCleanup(() => {
     console.log('Cleanup before next run')
   })
 })
 ```
 
-## أسئلة المراجعة | Review Q&A
-
-**س: ما الفرق بين `watch` و `watchEffect`؟**
-ج: `watch` يتطلب تحديد المصدر صراحةً ويعطيك القيمة القديمة والجديدة. `watchEffect` يتتبع كل الـ dependencies تلقائياً لكن لا يعطيك القيمة القديمة.
+## Review Q&A
 
 **Q: What is the difference between `watch` and `watchEffect`?**
-A: `watch` requires explicitly declaring the source and gives you old + new values. `watchEffect` auto-tracks all dependencies but doesn't give you the old value.
+A: `watch` requires an explicit source and provides old and new values. `watchEffect` automatically tracks dependencies and does not provide the old value.
 
-**س: لماذا `computed` أفضل من `method` للقيم المشتقة؟**
-ج: لأن `computed` يُخزّن النتيجة مؤقتاً (cached) ولا يُعاد حسابه إلا إذا تغيّرت dependencies — مما يوفّر الأداء. `method` يُنفَّذ في كل render.
+**Q: Why is `computed` better than a method for derived values?**
+A: `computed` caches the result and only recalculates when dependencies change. A method runs on every render.
 
-**Q: Why is `computed` better than a `method` for derived values?**
-A: Because `computed` caches the result and only recalculates when its dependencies change — saving performance. A `method` runs on every render.
+## Examples Folder
 
-## مجلد الأمثلة | Examples Folder
+This section's examples are in `Section 06 - Reactivity Fundamentals/examples/`:
 
-راجع `examples/` للأكواد التشغيلية لكل درس.
-See `examples/` for runnable code for each lesson.
+- `examples/useCounter.js`
+- `examples/ReactivityDemo.vue`
+
+Open `Section 06 - Reactivity Fundamentals/examples/` to view the runnable code.
 
 ---
 
-**السابق | Prev:** Section 05 — الـ Directives / Directives  
-**التالي | Next:** Section 07 — الـ Components / Components
+**Prev:** Section 05 — Directives  
+**Next:** Section 07 — Components

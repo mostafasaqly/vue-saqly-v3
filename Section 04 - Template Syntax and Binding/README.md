@@ -1,123 +1,117 @@
-# القسم 4: Template Syntax والـ Binding
 # Section 4: Template Syntax & Binding
 
-> **Vue 3 Course — 23 Sections** | القسم 4 من 23
+> **Vue 3 Course — 23 Sections**
 
-## الدروس | Lessons
+## Lessons
 
-| # | بالعربية | In English |
-|---|---------|------------|
-| 1 | الـ Interpolation | Text Interpolation with `{{ }}` |
-| 2 | ربط النص | Text Binding with v-text |
-| 3 | ربط HTML | HTML Binding with v-html |
-| 4 | ربط Attributes | Attribute Binding with v-bind |
-| 5 | v-bind same-name shorthand | v-bind Same-Name Shorthand (Vue 3.4) |
-| 6 | الـ Attributes الديناميكية | Dynamic Attribute Names |
-| 7 | ربط الـ Class | Class Binding (Object & Array) |
-| 8 | ربط الـ Style | Style Binding (Object & Array) |
-| 9 | ربط الأحداث | Event Binding with v-on |
+| # | Lesson |
+|---|--------|
+| 1 | Text Interpolation with `{{ }}` |
+| 2 | Text Binding with v-text |
+| 3 | HTML Binding with v-html |
+| 4 | Attribute Binding with v-bind |
+| 5 | v-bind same-name shorthand (Vue 3.4) |
+| 6 | Dynamic Attribute Names |
+| 7 | Class Binding (Object & Array) |
+| 8 | Style Binding (Object & Array) |
+| 9 | Event Binding with v-on |
 
-## المفاهيم الرئيسية | Key Concepts
+## Key Concepts
 
-- **`{{ }}`** — Mustache interpolation لعرض القيم في الـ Template / Mustache interpolation to display values.
-- **`v-bind` (`:`)** — ربط attribute ديناميكي / Dynamic attribute binding.
-- **`v-on` (`@`)** — ربط حدث (event handler) / Event binding.
-- **`:class`** — ربط CSS classes ديناميكياً (Object أو Array) / Dynamic class binding using object or array syntax.
-- **`:style`** — ربط CSS styles مباشرة / Inline style binding using object syntax.
-- **`.prevent`** — Event modifier يمنع السلوك الافتراضي للمتصفح / Modifier that calls `event.preventDefault()`.
-- **`v-bind` same-name** — اختصار جديد في Vue 3.4: `:value` بدلاً من `:value="value"` / New Vue 3.4 shorthand.
+- **`{{ }}`** — Mustache interpolation to display values in the template.
+- **`v-bind` (`:`)** — Dynamic attribute binding.
+- **`v-on` (`@`)** — Event binding.
+- **`:class`** — Dynamic class binding using object or array syntax.
+- **`:style`** — Inline style binding using object syntax.
+- **`.prevent`** — Event modifier that calls `event.preventDefault()`.
+- **`v-bind` same-name** — Vue 3.4 shorthand: `:value` instead of `:value="value"`.
 
-## أمثلة مرجعية | Code Reference
+## Code Reference
 
 ```vue
 <script setup>
 import { ref } from 'vue'
 
-const message = ref('مرحبا!')
-const rawHtml = ref('<strong>نص عريض</strong>')
+const message = ref('Hello!')
+const rawHtml = ref('<strong>Bold text</strong>')
 const imageUrl = ref('/logo.png')
-const imageAlt = ref('شعار Vue')
+const imageAlt = ref('Vue logo')
 const isActive = ref(true)
 const hasError = ref(false)
 const btnColor = ref('#42b883')
 const dynamicAttr = ref('title')
 
-// Event handler
 const handleClick = (event) => {
-  console.log('تم الضغط!', event)
+  console.log('Clicked!', event)
 }
 
 const handleSubmit = (event) => {
-  // event.preventDefault() is called automatically by .prevent
-  console.log('تم الإرسال')
+  console.log('Form submitted')
 }
 </script>
 
 <template>
-  <!-- Text Interpolation / الاستيفاء -->
+  <!-- Text Interpolation -->
   <p>{{ message }}</p>
   <p>{{ message.toUpperCase() }}</p>
   <p>{{ 2 + 2 }}</p>
 
-  <!-- HTML Binding / ربط HTML -->
+  <!-- HTML Binding -->
   <div v-html="rawHtml"></div>
 
-  <!-- Attribute Binding / ربط Attributes -->
+  <!-- Attribute Binding -->
   <img :src="imageUrl" :alt="imageAlt" />
-  <button :disabled="!isActive">زر</button>
+  <button :disabled="!isActive">Disabled button</button>
 
-  <!-- Dynamic Attribute Name / اسم Attribute ديناميكي -->
-  <span :[dynamicAttr]="message">نص</span>
+  <!-- Dynamic Attribute Name -->
+  <span :[dynamicAttr]="message">Dynamic attribute text</span>
 
   <!-- Class Binding — Object Syntax -->
   <div :class="{ active: isActive, 'has-error': hasError }">
-    محتوى
+    Content block
   </div>
 
   <!-- Class Binding — Array Syntax -->
   <div :class="[isActive ? 'active' : '', 'base-class']">
-    محتوى
+    Content block
   </div>
 
-  <!-- Style Binding / ربط Style -->
+  <!-- Style Binding -->
   <button :style="{ backgroundColor: btnColor, color: 'white' }">
-    زر ملون
+    Colored button
   </button>
 
-  <!-- Event Binding / ربط الأحداث -->
-  <button @click="handleClick">اضغط</button>
-  <button @click="() => console.log('مباشرة!')">Inline</button>
+  <!-- Event Binding -->
+  <button @click="handleClick">Click me</button>
+  <button @click="() => console.log('Inline!')">Inline</button>
 
-  <!-- Event Modifiers / معدّلات الأحداث -->
+  <!-- Event Modifiers -->
   <form @submit.prevent="handleSubmit">
-    <button type="submit">إرسال</button>
+    <button type="submit">Submit</button>
   </form>
 
-  <!-- v-bind same-name shorthand (Vue 3.4) -->
+  <!-- v-bind same-name shorthand -->
   <!-- Instead of :src="src" you can write just :src -->
 </template>
 ```
 
-## أسئلة المراجعة | Review Q&A
-
-**س: ما الفرق بين `v-html` و `{{ }}`؟**
-ج: `{{ }}` يعرض النص كنص عادي (يحمي من XSS)، أما `v-html` فيُدرج HTML حقيقي — استخدمه بحذر فقط مع المحتوى الموثوق.
+## Review Q&A
 
 **Q: What is the difference between `v-html` and `{{ }}`?**
-A: `{{ }}` renders content as plain text (XSS-safe), while `v-html` inserts real HTML — use it carefully only with trusted content.
-
-**س: ما هي الـ Event Modifiers الشائعة؟**
-ج: `.prevent` (يمنع السلوك الافتراضي)، `.stop` (يوقف التبعثر)، `.once` (يُشغَّل مرة واحدة)، `.self` (يُشغَّل فقط على العنصر ذاته).
+A: `{{ }}` renders content as plain text (XSS-safe), while `v-html` inserts real HTML — use it carefully with trusted content.
 
 **Q: What are the common Event Modifiers?**
 A: `.prevent` (calls preventDefault), `.stop` (stops propagation), `.once` (fires only once), `.self` (only fires on the element itself).
 
-## مجلد الأمثلة | Examples Folder
+## Examples Folder
 
-راجع `examples/` للأكواد التشغيلية لكل درس.
-See `examples/` for runnable code for each lesson.
+This section's examples are in `Section 04 - Template Syntax and Binding/examples/`:
+
+- `examples/TemplateBinding.vue`
+
+Open `Section 04 - Template Syntax and Binding/examples/` to view the sample code.
 
 ---
 
-**السابق | Prev:** Section 03 — أساسيات Vue / Vue Fundamentals  
-**التالي | Next:** Section 05 — الـ Directives / Directives
+**Prev:** Section 03 — Vue Fundamentals  
+**Next:** Section 05 — Directives
