@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function () {
+        try {
+          var el = document.documentElement;
+          var lang = localStorage.getItem("vue_lang") || "ar";
+          el.lang = lang;
+          el.dir = lang === "ar" ? "rtl" : "ltr";
+          var theme = localStorage.getItem("vue_theme") || "dark";
+          el.setAttribute("data-theme", theme);
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/vue.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>كورس Vue 3</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
