@@ -81,7 +81,7 @@ button { font-family: inherit; cursor: pointer; }
 }
 .sidebar__brand-small {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 6px;
 }
 .sidebar__course-link {
@@ -111,21 +111,27 @@ button { font-family: inherit; cursor: pointer; }
 .sidebar__vue-link {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 12px;
   background: rgba(65, 184, 131, 0.12);
-  border: 1.5px solid rgba(65, 184, 131, 0.4);
+  border: 1.5px solid rgba(65, 184, 131, 0.35);
   text-decoration: none;
   transition: background 0.2s, transform 0.15s, border-color 0.2s;
+  flex-shrink: 0;
 }
 .sidebar__vue-link:hover {
   background: rgba(65, 184, 131, 0.22);
-  border-color: rgba(65, 184, 131, 0.7);
-  transform: scale(1.05);
+  border-color: rgba(65, 184, 131, 0.65);
+  transform: scale(1.03);
 }
-.sidebar__vue-logo--big { width: 34px; height: 34px; }
+.sidebar__vue-logo--big { width: 28px; height: 28px; flex-shrink: 0; }
+.sidebar__vue-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #41b883;
+  white-space: nowrap;
+}
 
 .sidebar__controls { display: flex; gap: 8px; margin-bottom: 12px; }
 .lang-toggle,
