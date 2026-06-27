@@ -37,17 +37,7 @@ function select(id) {
   >
     <!-- Brand -->
     <div class="sidebar__brand">
-      <svg class="sidebar__logo" viewBox="0 0 261.76 226.69" xmlns="http://www.w3.org/2000/svg" aria-label="Vue logo">
-        <path d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.762.001z" fill="#41b883"/>
-        <path d="M161.096.001l-30.225 52.351L100.647.001H52.346l78.526 136.01L209.398.001z" fill="#34495e"/>
-      </svg>
-      <div>
-        <h1 class="sidebar__title">{{ isAr ? "كورس Vue 3" : "Vue 3 Course" }}</h1>
-        <p class="sidebar__subtitle">
-          {{ isAr ? `${sections.length} قسماً • بالعربية` : `${sections.length} sections • Arabic` }}
-        </p>
-      </div>
-      <div class="sidebar__course-links">
+      <div class="sidebar__brand-icons">
         <a
           href="https://mostafasaqly.github.io/react-saqly-v19/"
           target="_blank"
@@ -66,20 +56,6 @@ function select(id) {
           </svg>
         </a>
         <a
-          href="https://mostafasaqly.github.io/angular-saqly-v22/section/1"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="sidebar__course-link"
-          :title="isAr ? 'كورس Angular 22' : 'Angular 22 Course'"
-          :aria-label="isAr ? 'انتقل إلى كورس Angular' : 'Go to Angular Course'"
-        >
-          <svg class="sidebar__angular-logo" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
-            <path d="M125 30L31.9 63.2l14.2 123.1L125 230l78.9-43.7 14.2-123.1z" fill="#DD0031"/>
-            <path d="M125 30v22.2-.1V230l78.9-43.7 14.2-123.1L125 30z" fill="#C3002F"/>
-            <path d="M125 52.1L66.8 182.6h21.7l11.7-29.2h49.4l11.7 29.2H183L125 52.1zm17 83.3h-34l17-40.9 17 40.9z" fill="#fff"/>
-          </svg>
-        </a>
-        <a
           href="https://mostafasaqly.github.io/vue-saqly-v3/#section-1"
           target="_blank"
           rel="noopener noreferrer"
@@ -93,6 +69,21 @@ function select(id) {
           </svg>
         </a>
       </div>
+      <a
+        href="https://mostafasaqly.github.io/angular-saqly-v22/section/1"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="sidebar__angular-link"
+        :title="isAr ? 'كورس Angular 22' : 'Angular 22 Course'"
+        :aria-label="isAr ? 'انتقل إلى كورس Angular' : 'Go to Angular Course'"
+      >
+        <svg class="sidebar__angular-logo" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+          <path d="M125 30L31.9 63.2l14.2 123.1L125 230l78.9-43.7 14.2-123.1z" fill="#DD0031"/>
+          <path d="M125 30v22.2-.1V230l78.9-43.7 14.2-123.1L125 30z" fill="#C3002F"/>
+          <path d="M125 52.1L66.8 182.6h21.7l11.7-29.2h49.4l11.7 29.2H183L125 52.1zm17 83.3h-34l17-40.9 17 40.9z" fill="#fff"/>
+        </svg>
+        <span class="sidebar__angular-label">{{ isAr ? "كورس انجولار v22" : "Angular v22 Course" }}</span>
+      </a>
     </div>
 
     <!-- Controls -->

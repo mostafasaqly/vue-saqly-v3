@@ -73,36 +73,61 @@ button { font-family: inherit; cursor: pointer; }
 .sidebar__brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 8px 20px;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 8px 16px;
   border-bottom: 1px solid var(--border);
   margin-bottom: 16px;
 }
-.sidebar__logo { width: 36px; height: 36px; flex-shrink: 0; }
-.sidebar__title { font-size: 18px; font-weight: 700; color: var(--text); }
-.sidebar__subtitle { font-size: 13px; color: var(--text-muted); }
-
-.sidebar__course-links {
-  margin-inline-start: auto;
+.sidebar__brand-icons {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 6px;
-  flex-shrink: 0;
 }
 .sidebar__course-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  transition: background 0.2s, transform 0.2s;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  transition: background 0.2s, transform 0.15s, border-color 0.2s;
 }
-.sidebar__course-link:hover { background: var(--surface-2); transform: scale(1.1); }
-.sidebar__react-logo { width: 24px; height: 24px; }
-.sidebar__angular-logo { width: 24px; height: 24px; }
-.sidebar__vue-logo { width: 24px; height: 24px; }
-.sidebar__course-link--active { background: rgba(65, 184, 131, 0.15); }
+.sidebar__course-link:hover { background: var(--border); transform: scale(1.08); }
+.sidebar__course-link--active {
+  background: rgba(65, 184, 131, 0.15);
+  border-color: rgba(65, 184, 131, 0.4);
+}
+.sidebar__react-logo { width: 22px; height: 22px; }
+.sidebar__vue-logo { width: 22px; height: 22px; }
+.sidebar__angular-logo { width: 20px; height: 20px; }
+
+.sidebar__angular-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  background: rgba(221, 0, 49, 0.1);
+  border: 1px solid rgba(221, 0, 49, 0.25);
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+.sidebar__angular-link:hover {
+  background: rgba(221, 0, 49, 0.18);
+  border-color: rgba(221, 0, 49, 0.5);
+  transform: scale(1.03);
+  opacity: 1;
+}
+.sidebar__angular-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #DD0031;
+  white-space: nowrap;
+}
 
 .sidebar__controls { display: flex; gap: 8px; margin-bottom: 12px; }
 .lang-toggle,
