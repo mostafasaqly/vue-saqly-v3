@@ -1,7 +1,10 @@
 <script setup>
 import { ref } from "vue";
+import { useLang } from "../composables/useLang.js";
 
 const props = defineProps({ code: { type: String, required: true } });
+const { lang } = useLang();
+const isAr = () => lang.value === "ar";
 const copied = ref(false);
 
 function highlight(raw) {
@@ -56,9 +59,9 @@ async function copy() {
       class="code-copy"
       :class="{ 'code-copy--done': copied }"
       @click="copy"
-      :aria-label="copied ? 'Copied!' : 'Copy code'"
+      :aria-label="copied ? (isAr() ? 'تم النسخ!' : 'Copied!') : (isAr() ? 'نسخ الكود' : 'Copy code')"
     >
-      {{ copied ? "✓" : "Copy" }}
+      {{ copied ? "✓" : (isAr() ? "نسخ" : "Copy") }}
     </button>
   </div>
 </template>
