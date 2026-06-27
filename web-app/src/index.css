@@ -239,8 +239,12 @@ button { font-family: inherit; cursor: pointer; }
   background: #0d1117; border: 1px solid #30363d; border-radius: var(--radius);
   padding: 20px; padding-inline-end: 80px; overflow-x: auto;
   font-size: 14.5px; line-height: 1.85;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
-.block-code code { color: #e6edf3; white-space: pre; direction: ltr; display: block; }
+.block-code code {
+  color: #e6edf3; white-space: pre; direction: ltr; display: block;
+  font-family: inherit;
+}
 .code-copy {
   position: absolute; top: 10px; inset-inline-end: 12px; z-index: 1;
   background: var(--surface-2); color: var(--text-muted);
@@ -319,6 +323,28 @@ button { font-family: inherit; cursor: pointer; }
 }
 .lesson__notes-textarea:focus { border-color: var(--primary); }
 .lesson__notes-textarea::placeholder { color: var(--text-muted); }
+
+/* Scrollbar */
+* {
+  scrollbar-color: var(--border) var(--surface);
+  scrollbar-width: thin;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
 
 /* Complete */
 .lesson__complete { margin-top: 20px; padding-bottom: 20px; display: flex; justify-content: center; }
