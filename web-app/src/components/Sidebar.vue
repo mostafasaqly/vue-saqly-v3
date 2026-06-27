@@ -37,7 +37,8 @@ function select(id) {
   >
     <!-- Brand -->
     <div class="sidebar__brand">
-      <div class="sidebar__brand-icons">
+      <!-- small icons: React + Angular -->
+      <div class="sidebar__brand-small">
         <a
           href="https://mostafasaqly.github.io/react-saqly-v19/"
           target="_blank"
@@ -56,33 +57,34 @@ function select(id) {
           </svg>
         </a>
         <a
-          href="https://mostafasaqly.github.io/vue-saqly-v3/#section-1"
+          href="https://mostafasaqly.github.io/angular-saqly-v22/section/1"
           target="_blank"
           rel="noopener noreferrer"
-          class="sidebar__course-link sidebar__course-link--active"
-          :title="isAr ? 'كورس Vue 3' : 'Vue 3 Course'"
-          :aria-label="isAr ? 'أنت في كورس Vue' : 'You are in Vue Course'"
+          class="sidebar__course-link sidebar__course-link--angular"
+          :title="isAr ? 'كورس Angular 22' : 'Angular 22 Course'"
+          :aria-label="isAr ? 'انتقل إلى كورس Angular' : 'Go to Angular Course'"
         >
-          <svg class="sidebar__vue-logo" viewBox="0 0 261.76 226.69" xmlns="http://www.w3.org/2000/svg">
-            <path d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.762.001z" fill="#41b883"/>
-            <path d="M161.096.001l-30.225 52.351L100.647.001H52.346l78.526 136.01L209.398.001z" fill="#34495e"/>
+          <svg class="sidebar__angular-logo" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+            <path d="M125 30L31.9 63.2l14.2 123.1L125 230l78.9-43.7 14.2-123.1z" fill="#DD0031"/>
+            <path d="M125 30v22.2-.1V230l78.9-43.7 14.2-123.1L125 30z" fill="#C3002F"/>
+            <path d="M125 52.1L66.8 182.6h21.7l11.7-29.2h49.4l11.7 29.2H183L125 52.1zm17 83.3h-34l17-40.9 17 40.9z" fill="#fff"/>
           </svg>
         </a>
       </div>
+
+      <!-- big Vue logo (active course) -->
       <a
-        href="https://mostafasaqly.github.io/angular-saqly-v22/section/1"
+        href="https://mostafasaqly.github.io/vue-saqly-v3/#section-1"
         target="_blank"
         rel="noopener noreferrer"
-        class="sidebar__angular-link"
-        :title="isAr ? 'كورس Angular 22' : 'Angular 22 Course'"
-        :aria-label="isAr ? 'انتقل إلى كورس Angular' : 'Go to Angular Course'"
+        class="sidebar__vue-link"
+        :title="isAr ? 'كورس Vue 3' : 'Vue 3 Course'"
+        :aria-label="isAr ? 'أنت في كورس Vue' : 'You are in Vue Course'"
       >
-        <svg class="sidebar__angular-logo" viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
-          <path d="M125 30L31.9 63.2l14.2 123.1L125 230l78.9-43.7 14.2-123.1z" fill="#DD0031"/>
-          <path d="M125 30v22.2-.1V230l78.9-43.7 14.2-123.1L125 30z" fill="#C3002F"/>
-          <path d="M125 52.1L66.8 182.6h21.7l11.7-29.2h49.4l11.7 29.2H183L125 52.1zm17 83.3h-34l17-40.9 17 40.9z" fill="#fff"/>
+        <svg class="sidebar__vue-logo--big" viewBox="0 0 261.76 226.69" xmlns="http://www.w3.org/2000/svg">
+          <path d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.762.001z" fill="#41b883"/>
+          <path d="M161.096.001l-30.225 52.351L100.647.001H52.346l78.526 136.01L209.398.001z" fill="#34495e"/>
         </svg>
-        <span class="sidebar__angular-label">{{ isAr ? "كورس انجولار v22" : "Angular v22 Course" }}</span>
       </a>
     </div>
 
@@ -99,22 +101,28 @@ function select(id) {
     <!-- Progress -->
     <div class="progress-box" :aria-label="isAr ? `تقدمك: ${percent}%` : `Progress: ${percent}%`">
       <div class="progress-box__header">
-        <span>{{ isAr ? "تقدمك" : "Progress" }}</span>
-        <span class="progress-box__nums">{{ completed.length }}/{{ total }}</span>
+        <span>{{ isAr ? "التقدم" : "Progress" }}</span>
+        <span class="progress-box__nums">
+          <span class="progress-box__pct">{{ percent }}%</span>
+          {{ completed.length }}/{{ total }}
+        </span>
       </div>
       <div class="progress-bar" role="progressbar" :aria-valuenow="percent" aria-valuemin="0" aria-valuemax="100">
         <div class="progress-bar__fill" :style="{ width: percent + '%' }" />
       </div>
-      <span class="progress-box__pct">{{ percent }}%</span>
     </div>
 
     <!-- Search -->
     <div class="sidebar__search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
       <input
         class="search-input"
         type="search"
         v-model="query"
-        :placeholder="indexReady ? (isAr ? 'ابحث في الكورس…' : 'Search course…') : (isAr ? 'جارٍ التحميل…' : 'Loading…')"
+        :placeholder="indexReady ? (isAr ? 'يبحث في الأقسام...' : 'Search course…') : (isAr ? 'جارٍ التحميل…' : 'Loading…')"
         :disabled="!indexReady"
         :aria-label="isAr ? 'بحث' : 'Search'"
       />
