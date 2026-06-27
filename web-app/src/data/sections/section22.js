@@ -152,7 +152,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_API_URL: \${{ secrets.VITE_API_URL }}
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v3
@@ -160,8 +160,8 @@ jobs:
           publish-dir: './dist'
           production-branch: main
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}` },
+          NETLIFY_AUTH_TOKEN: \${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: \${{ secrets.NETLIFY_SITE_ID }}` },
     { type: "heading", text: "مشاكل شائعة وحلولها" },
     { type: "list", items: [
       "❌ 404 عند تحديث الصفحة — ✅ أضف SPA redirects في netlify.toml أو vercel.json",
@@ -239,7 +239,7 @@ jobs:
       - run: npm run test -- --run
       - run: npm run build
         env:
-          VITE_API_URL: ${{ secrets.VITE_API_URL }}` },
+          VITE_API_URL: \${{ secrets.VITE_API_URL }}` },
     { type: "heading", text: "Common Issues & Fixes" },
     { type: "list", items: [
       "❌ 404 on page refresh → ✅ Add SPA redirects in netlify.toml or vercel.json",
