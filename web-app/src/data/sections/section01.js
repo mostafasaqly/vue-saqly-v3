@@ -29,7 +29,7 @@ export default {
   content: [
     { type: "heading", text: "👋 مرحباً، أنا مصطفى سقلى" },
     { type: "paragraph", text: "حاولت من خلال هذا الكورس أن أساعدك تتعلم Vue 3 بالعربية بكل سهولة، مع أفضل الممارسات الحديثة في مكان واحد." },
-    { type: "cta", text: "لو محتاج تدريب على مسارات متكاملة،", linkLabel: "ادخل من هنا →", link: "https://saqly.com" },
+    { type: "cta", text: "لو محتاج تدريب على مسارات متكاملة،", linkLabel: "ادخل من هنا →", link: "https://saqly.com/individual-training" },
     { type: "heading", text: "🎯 ما الذي ستبنيه في هذا الكورس" },
     { type: "paragraph", text: "في نهاية الكورس ستبني ثلاثة مشاريع كاملة جاهزة للـ Portfolio:" },
     { type: "list", items: ["🗂️ تطبيق إدارة مهام — Composables + Pinia + localStorage", "📊 لوحة منتجات — Axios + Vue Router + بحث وفلترة", "🛒 متجر إلكتروني مصغّر — سلة تسوق بـ Pinia + Checkout"] },
@@ -51,7 +51,7 @@ export default {
   contentEn: [
     { type: "heading", text: "👋 Welcome — Meet Mostafa Saqly" },
     { type: "paragraph", text: "This course is designed to help anyone learn Vue 3 in Arabic with modern best practices all in one place." },
-    { type: "cta", text: "Need a structured learning path?", linkLabel: "Check it out →", link: "https://saqly.com" },
+    { type: "cta", text: "Need a structured learning path?", linkLabel: "Check it out →", link: "https://saqly.com/individual-training" },
     { type: "heading", text: "🎯 What You Will Build" },
     { type: "list", items: ["🗂️ Task Manager App — Composables + Pinia + localStorage", "📊 Products Dashboard — Axios + Vue Router + search & filter", "🛒 Mini E-Commerce App — Shopping cart with Pinia + Checkout"] },
     { type: "heading", text: "📋 Prerequisites" },

@@ -18,13 +18,24 @@ function highlight(raw) {
       .replace(/--[\w-]+/g, '<span class="tok-sh-flag">$&</span>');
   }
 
-  return escaped
-    .replace(/(\/\/[^\n]*)/g, '<span class="tok-comment">$1</span>')
+  // Extract comments first as placeholders so subsequent regexes don't corrupt their content
+  const comments = [];
+  const withoutComments = escaped.replace(/(\/\/[^\n]*)/g, (match) => {
+    comments.push(match);
+    return `\x00COMMENT${comments.length - 1}\x00`;
+  });
+
+  const highlighted = withoutComments
     .replace(/\b(import|export|from|const|let|var|function|return|if|else|for|while|class|extends|new|async|await|default|typeof|instanceof)\b/g, '<span class="tok-keyword">$1</span>')
     .replace(/\b(ref|reactive|computed|watch|watchEffect|onMounted|onUnmounted|defineProps|defineEmits|defineModel|defineExpose|useRoute|useRouter|createApp|inject|provide)\b/g, '<span class="tok-builtin">$1</span>')
     .replace(/(&quot;[^&]*&quot;|&#39;[^&]*&#39;|`[^`]*`)/g, '<span class="tok-string">$1</span>')
     .replace(/\b(\d+)\b/g, '<span class="tok-number">$1</span>')
     .replace(/(&lt;\/?[\w.-]+)/g, '<span class="tok-tag">$1</span>');
+
+  // Restore comments as styled spans
+  return highlighted.replace(/\x00COMMENT(\d+)\x00/g, (_, i) =>
+    `<span class="tok-comment">${comments[+i]}</span>`
+  );
 }
 
 async function copy() {

@@ -78,23 +78,29 @@ button { font-family: inherit; cursor: pointer; }
   border-bottom: 1px solid var(--border);
   margin-bottom: 16px;
 }
-.sidebar__logo { font-size: 32px; }
+.sidebar__logo { width: 36px; height: 36px; flex-shrink: 0; }
 .sidebar__title { font-size: 18px; font-weight: 700; color: var(--text); }
 .sidebar__subtitle { font-size: 13px; color: var(--text-muted); }
 
-.sidebar__react-link {
+.sidebar__course-links {
   margin-inline-start: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.sidebar__course-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   transition: background 0.2s, transform 0.2s;
-  flex-shrink: 0;
 }
-.sidebar__react-link:hover { background: rgba(97,218,251,0.12); transform: scale(1.1); }
-.sidebar__react-logo { width: 26px; height: 26px; }
+.sidebar__course-link:hover { background: var(--surface-2); transform: scale(1.1); }
+.sidebar__react-logo { width: 24px; height: 24px; }
+.sidebar__angular-logo { width: 24px; height: 24px; }
 
 .sidebar__controls { display: flex; gap: 8px; margin-bottom: 12px; }
 .lang-toggle,
