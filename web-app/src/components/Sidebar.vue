@@ -79,6 +79,19 @@ function select(id) {
             <path d="M125 52.1L66.8 182.6h21.7l11.7-29.2h49.4l11.7 29.2H183L125 52.1zm17 83.3h-34l17-40.9 17 40.9z" fill="#fff"/>
           </svg>
         </a>
+        <a
+          href="https://mostafasaqly.github.io/vue-saqly-v3/#section-1"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="sidebar__course-link sidebar__course-link--active"
+          :title="isAr ? 'كورس Vue 3' : 'Vue 3 Course'"
+          :aria-label="isAr ? 'أنت في كورس Vue' : 'You are in Vue Course'"
+        >
+          <svg class="sidebar__vue-logo" viewBox="0 0 261.76 226.69" xmlns="http://www.w3.org/2000/svg">
+            <path d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.762.001z" fill="#41b883"/>
+            <path d="M161.096.001l-30.225 52.351L100.647.001H52.346l78.526 136.01L209.398.001z" fill="#34495e"/>
+          </svg>
+        </a>
       </div>
     </div>
 

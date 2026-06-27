@@ -101,6 +101,8 @@ button { font-family: inherit; cursor: pointer; }
 .sidebar__course-link:hover { background: var(--surface-2); transform: scale(1.1); }
 .sidebar__react-logo { width: 24px; height: 24px; }
 .sidebar__angular-logo { width: 24px; height: 24px; }
+.sidebar__vue-logo { width: 24px; height: 24px; }
+.sidebar__course-link--active { background: rgba(65, 184, 131, 0.15); }
 
 .sidebar__controls { display: flex; gap: 8px; margin-bottom: 12px; }
 .lang-toggle,
