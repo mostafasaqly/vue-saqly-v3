@@ -68,7 +68,9 @@ button { font-family: inherit; cursor: pointer; }
   height: 100vh;
   position: sticky;
   top: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .sidebar__brand {
   display: flex;
@@ -120,11 +122,7 @@ button { font-family: inherit; cursor: pointer; }
   transition: background 0.2s, transform 0.15s, border-color 0.2s;
   flex-shrink: 0;
 }
-.sidebar__vue-link:hover {
-  background: rgba(65, 184, 131, 0.22);
-  border-color: rgba(65, 184, 131, 0.65);
-  transform: scale(1.03);
-}
+.sidebar__vue-link { cursor: default; }
 .sidebar__vue-logo--big { width: 28px; height: 28px; flex-shrink: 0; }
 .sidebar__vue-label {
   font-size: 12px;
@@ -208,7 +206,7 @@ button { font-family: inherit; cursor: pointer; }
 .search-result-item__snippet { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* Nav */
-.sidebar__nav { display: flex; flex-direction: column; gap: 4px; }
+.sidebar__nav { display: flex; flex-direction: column; gap: 4px; overflow-y: auto; flex: 1; padding-bottom: 8px; }
 .nav-item {
   display: flex; align-items: center; gap: 12px;
   width: 100%; padding: 11px 12px;

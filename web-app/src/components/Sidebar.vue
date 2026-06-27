@@ -37,21 +37,14 @@ function select(id) {
   >
     <!-- Brand -->
     <div class="sidebar__brand">
-      <!-- Vue logo + label (active course) -->
-      <a
-        href="https://mostafasaqly.github.io/vue-saqly-v3/#section-1"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="sidebar__vue-link"
-        :title="isAr ? 'كورس Vue 3' : 'Vue 3 Course'"
-        :aria-label="isAr ? 'أنت في كورس Vue' : 'You are in Vue Course'"
-      >
+      <!-- Vue logo + label (active course, not clickable) -->
+      <div class="sidebar__vue-link" :aria-label="isAr ? 'أنت في كورس Vue' : 'You are in Vue Course'">
         <svg class="sidebar__vue-logo--big" viewBox="0 0 261.76 226.69" xmlns="http://www.w3.org/2000/svg">
           <path d="M161.096.001l-30.225 52.351L100.647.001H-.005l130.877 226.688L261.762.001z" fill="#41b883"/>
           <path d="M161.096.001l-30.225 52.351L100.647.001H52.346l78.526 136.01L209.398.001z" fill="#34495e"/>
         </svg>
         <span class="sidebar__vue-label">{{ isAr ? 'كورس Vue v3' : 'Vue v3 Course' }}</span>
-      </a>
+      </div>
 
       <!-- small icons: React + Angular -->
       <div class="sidebar__brand-small">
