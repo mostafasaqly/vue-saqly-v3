@@ -1,9 +1,9 @@
 # Vue Course — Interactive Web App
 
-Bilingual (Arabic / English) learning companion for the **Vue 3 Course — 23 Sections**.  
-Built with **Vue 3.5** · **Vite 6** · **Composition API** · `<script setup>` · no external UI libraries.
+A bilingual (Arabic / English) interactive learning app for the **Vue 3 Course — 23 Sections**.  
+Built with **Vue 3.5** · **Vite 6** · **Composition API** · `<script setup>` — no external UI libraries.
 
-🌐 **Live:** [mostafasaqly.github.io/vue-saqly-v3](https://mostafasaqly.github.io/vue-saqly-v3/)
+**Live:** [mostafasaqly.github.io/vue-saqly-v3](https://mostafasaqly.github.io/vue-saqly-v3/)
 
 ---
 
@@ -11,13 +11,13 @@ Built with **Vue 3.5** · **Vite 6** · **Composition API** · `<script setup>` 
 
 | | Feature | Detail |
 |---|---|---|
-| 🌍 | Bilingual | Arabic (RTL) & English, switch at any time |
+| 🌍 | Bilingual | Arabic (RTL) & English — switch at any time |
 | 🌙 | Dark / Light theme | Persisted in localStorage |
 | 📚 | 23 Sections | Full course content with rich code examples |
-| ✅ | Progress tracking | Mark sections complete, saved in localStorage |
-| 📝 | Personal notes | Per-section notes, auto-saved |
+| ✅ | Progress tracking | Mark sections complete — saved in localStorage |
+| 📝 | Personal notes | Per-section notes — auto-saved in localStorage |
 | 🔍 | Search | Instant search across all section titles |
-| 📋 | Copy code | One-click copy (`نسخ` in Arabic / `Copy` in English) |
+| 📋 | Copy code | One-click copy (`Copy` in English / `نسخ` in Arabic) |
 | 📱 | Responsive | Mobile, tablet, and desktop |
 
 ---
@@ -29,12 +29,12 @@ web-app/
 ├── public/
 ├── src/
 │   ├── components/
-│   │   ├── Sidebar.vue           # Navigation + search + theme/lang toggles
+│   │   ├── Sidebar.vue           # Navigation, search, theme and language toggles
 │   │   ├── LessonContent.vue     # Renders all content block types
-│   │   ├── CodeBlock.vue         # Syntax-highlighted code + copy button
+│   │   ├── CodeBlock.vue         # Syntax-highlighted code with copy button
 │   │   └── QABlock.vue           # Collapsible Q&A accordion
 │   ├── composables/
-│   │   ├── useLang.js            # Language state (ar / en), RTL/LTR
+│   │   ├── useLang.js            # Language state (ar / en) + RTL/LTR direction
 │   │   ├── useTheme.js           # Dark / light theme toggle
 │   │   ├── useProgress.js        # Section completion tracking
 │   │   ├── useNotes.js           # Per-section personal notes
@@ -43,8 +43,8 @@ web-app/
 │   ├── data/
 │   │   ├── sections.js           # Sidebar metadata + loadSection()
 │   │   └── sections/
-│   │       ├── section01.js      # Course Introduction
-│   │       ├── section02.js      # Development Environment
+│   │       ├── section01.js
+│   │       ├── section02.js
 │   │       └── ...               # section01 – section23
 │   ├── App.vue
 │   ├── main.js
@@ -58,31 +58,31 @@ web-app/
 
 ## Content Block Schema
 
-Each `sectionXX.js` exports a default object. The `content[]` and `contentEn[]` arrays support these block types:
+Each `sectionXX.js` file exports a default object. The `content[]` (Arabic) and `contentEn[]` (English) arrays support these block types:
 
 ```js
 export default {
   id: 6,
-  title: "أساسيات الـ Reactivity",       // Arabic title
-  titleEn: "Reactivity Fundamentals",    // English title
-  level: "مبتدئ",
-  levelEn: "Beginner",
-  lessons: ["درس 1", "درس 2"],           // Arabic lesson list (TOC)
-  lessonsEn: ["Lesson 1", "Lesson 2"],   // English lesson list
-  intro: "مقدمة عربية ...",
-  introEn: "English intro ...",
-  content: [                             // Arabic content blocks
-    { type: "heading",    text: "العنوان" },
-    { type: "subheading", text: "عنوان فرعي" },
-    { type: "paragraph",  text: "نص..." },
-    { type: "code",       code: `const x = ref(0)` },
-    { type: "list",       items: ["بند 1", "بند 2"] },
-    { type: "tip",        text: "نصيحة..." },
-    { type: "warning",    text: "تحذير..." },
-    { type: "qa",         question: "سؤال؟", answer: "جواب..." },
-    { type: "cta",        text: "نص", linkLabel: "رابط →", link: "https://..." },
+  title: "...",          // Arabic title
+  titleEn: "...",        // English title
+  level: "...",          // Arabic level label
+  levelEn: "...",        // English level label
+  lessons: [...],        // Arabic lesson list shown in the TOC
+  lessonsEn: [...],      // English lesson list
+  intro: "...",          // Arabic intro paragraph
+  introEn: "...",        // English intro paragraph
+  content: [             // Arabic content blocks
+    { type: "heading",    text: "..." },
+    { type: "subheading", text: "..." },
+    { type: "paragraph",  text: "..." },
+    { type: "code",       code: `...` },
+    { type: "list",       items: ["...", "..."] },
+    { type: "tip",        text: "..." },
+    { type: "warning",    text: "..." },
+    { type: "qa",         question: "...", answer: "..." },
+    { type: "cta",        text: "...", linkLabel: "...", link: "https://..." },
   ],
-  contentEn: [ /* same structure in English */ ],
+  contentEn: [ /* same block types in English */ ],
 }
 ```
 
@@ -93,37 +93,33 @@ export default {
 All composables use **module-level singletons** — state is shared across all components without Pinia or Vuex.
 
 ### `useLang.js`
-```js
-// Language state — persisted in localStorage, sets document dir
-const { lang, toggleLang } = useLang()
-// lang.value === 'ar' | 'en'
-```
+Manages the active language (`ar` / `en`) and the document `dir` attribute (`rtl` / `ltr`). Persisted in localStorage.
 
 ### `useTheme.js`
-```js
-// Dark/light theme — persisted in localStorage
-const { isDark, toggleTheme } = useTheme()
-```
+Manages dark / light theme by toggling a CSS class on `<html>`. Persisted in localStorage.
 
 ### `useProgress.js`
+Tracks which sections the user has marked complete. Stored as a set in localStorage.
+
 ```js
-// Per-section completion — persisted in localStorage
 const { isComplete, toggleComplete } = useProgress()
-isComplete(sectionId)      // boolean
-toggleComplete(sectionId)  // toggle & save
+isComplete(sectionId)      // returns boolean
+toggleComplete(sectionId)  // toggles and saves
 ```
 
 ### `useNotes.js`
+Stores per-section text notes in localStorage, keyed by section ID.
+
 ```js
-// Per-section personal notes — persisted in localStorage
 const { getNote, setNote } = useNotes()
-getNote(sectionId)          // string
+getNote(sectionId)          // returns string
 setNote(sectionId, text)    // saves to localStorage
 ```
 
 ### `useSectionContent.js`
+Async loader that dynamically imports the section data file and caches it in memory to avoid re-fetching.
+
 ```js
-// Async loader with in-memory cache — lazy-loads each section file
 const { section, loading, error, retry } = useSectionContent(activeId)
 ```
 
@@ -135,7 +131,7 @@ const { section, loading, error, retry } = useSectionContent(activeId)
 cd web-app
 npm install
 npm run dev
-# → http://localhost:5173
+# http://localhost:5173
 ```
 
 ### Build for production
@@ -151,9 +147,15 @@ npm run preview  # preview the production build locally
 
 Deployed automatically to **GitHub Pages** via GitHub Actions on every push to `main`.
 
-- Workflow: [`.github/workflows/deploy-web-app.yml`](../.github/workflows/deploy-web-app.yml)
-- Uses: `actions/configure-pages` + `actions/upload-pages-artifact` + `actions/deploy-pages`
-- Permissions: `pages: write`, `id-token: write`
+Workflow: [`.github/workflows/deploy-web-app.yml`](../.github/workflows/deploy-web-app.yml)
+
+The workflow:
+1. Checks out the repo
+2. Runs `npm ci` and `npm run build` inside `web-app/`
+3. Uploads `web-app/dist/` as a Pages artifact
+4. Deploys via `actions/deploy-pages`
+
+Required permissions: `pages: write` · `id-token: write`
 
 ---
 
@@ -163,8 +165,8 @@ Deployed automatically to **GitHub Pages** via GitHub Actions on every push to `
 |---|---|---|
 | Vue | 3.5 | UI framework — Composition API, `<script setup>` |
 | Vite | 6 | Build tool & dev server |
-| Vanilla CSS | — | Custom design system, CSS variables, no UI library |
-| localStorage | — | Theme, language, progress, notes persistence |
+| Vanilla CSS | — | Custom design system with CSS variables, no UI library |
+| localStorage | — | Theme, language, progress, and notes persistence |
 
 ---
 
