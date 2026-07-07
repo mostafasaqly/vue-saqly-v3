@@ -107,8 +107,17 @@ button { font-family: inherit; cursor: pointer; }
   background: rgba(221, 0, 49, 0.18);
   border-color: rgba(221, 0, 49, 0.45);
 }
+.sidebar__course-link--next {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.25);
+}
+.sidebar__course-link--next:hover {
+  background: rgba(0, 0, 0, 0.18);
+  border-color: rgba(0, 0, 0, 0.45);
+}
 .sidebar__react-logo { width: 18px; height: 18px; }
 .sidebar__angular-logo { width: 17px; height: 17px; }
+.sidebar__next-logo { width: 17px; height: 17px; border-radius: 50%; }
 
 .sidebar__vue-link {
   display: flex;
